@@ -1,0 +1,34 @@
+pipeline {
+    agent {
+        docker {
+            image 'python:3.8.10'
+            args '-p 8000:8000'
+        }
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Installing'
+                sh 'pip install -r requirements.txt '
+            }
+        }
+
+        // stage('Test') {
+        //     steps {
+        //         echo 'Testing'
+        //         sh 'npm run test'
+        //     }
+        // }
+
+        stage('Deploy') {
+            steps {
+                echo 'Deploying'
+                def customImage = docker.build("stock-monitor-api-python:${env.BUILD_ID}")
+                customImage.inside {
+                    sh 'docker-compose up'
+                }
+            }
+        }
+    }
+}

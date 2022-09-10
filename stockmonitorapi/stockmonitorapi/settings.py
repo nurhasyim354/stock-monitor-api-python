@@ -10,7 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+# export MONGO_USER=admin
+# export MONGO_PASSWORD=vuLsomPl1
+# export DJANGO_KEY="django-insecure-#m-&g8=)zcf@r@xz(jekm*fwdat1)p5o4u)gnm!6e-!(jgayyx"
+# export MONGO_HOST=cluster0.rvkpori.mongodb.net
+
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-#m-&g8=)zcf@r@xz(jekm*fwdat1)p5o4u)gnm!6e-!(jgayyx'
+SECRET_KEY = os.environ['DJANGO_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -93,12 +99,12 @@ DATABASES = {
            'ENGINE': 'djongo',
            'NAME': 'stock_monitor',
            'CLIENT': {
-                'host': '192.168.1.213',
+                'host': os.environ['MONGO_HOST'],
                 'port': 27017,
-                # 'username': 'db-username',
-                # 'password': 'password',
-                # 'authSource': 'db-name',
-                # 'authMechanism': 'SCRAM-SHA-1'
+                'username': os.environ['MONGO_USER'],
+                'password': os.environ['MONGO_PASSWORD'],
+                'authSource': 'stock_monitor',
+                'authMechanism': 'SCRAM-SHA-1'
             }
        }
 }
