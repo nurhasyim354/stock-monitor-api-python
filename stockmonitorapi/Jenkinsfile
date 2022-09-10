@@ -7,7 +7,7 @@ pipeline {
             steps {
                 
                 sh '''
-                echo "home1 $HOME"
+                echo "home1 $DJANGO_KEY"
                 docker --version
                 python3 --version
                 pip --version
@@ -20,32 +20,26 @@ pipeline {
 
         stage('Build') {
             steps {
-                echo 'Installing'
+                echo 'Building'
                 sh '''
-                pip install -r requirements.txt 
+                cd stockmonitorapi
+                docker buit sm-api -f ./Dokerfile /
+                --build-arg DJANGO_KEY=${DJANGO_KEY} /
+                --build-arg MONGO_USER=${MONGO_USER} /
+                --build-arg MONGO_PASSWORD=${MONGO_PASSWORD} /
+                --build-arg MONGO_HOST=${MONGO_HOST}  . 
+                cd ..
                 '''
             }
         }
 
-        // stage('Test') {
-        //     steps {
-        //         echo 'Testing'
-        //         sh 'npm run test'
-        //     }
-        // }
-
-        // stage('Deploy') {
-        //     steps {
-        //         script {
-        //             echo 'Deploying'
-        //             customImage = docker.build("stock-monitor-api-python:${env.BUILD_ID}")
-        //             customImage.inside {
-        //                 sh '''
-        //                 docker-compose up
-        //                 '''
-        //             }
-        //         }
-        //     }
-        // }
+        stage('Run') {
+            steps {
+                echo 'Starting app'
+                sh '''
+                docker run -itd --name smapi-app -p 8000:8000 sm-api 
+                '''
+            }
+        }
     }
 }
