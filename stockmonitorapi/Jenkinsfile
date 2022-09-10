@@ -1,12 +1,21 @@
 pipeline {
-    agent {
-        docker {
-            image 'python:3.8.10'
-            args '-p 8000:8000'
-        }
-    }
+    agent any
 
     stages {
+
+        stage('Check env') {
+            echo "Mongoadmin ${MONGO_ADMIN}"
+            echo "home ${HOME}"
+            sh '''
+            echo "home1 $HOME"
+            docker --version
+            python --version
+            pip --version
+            virtualenv --version
+            '''
+        }
+
+
         stage('Build') {
             steps {
                 echo 'Installing'
@@ -23,18 +32,18 @@ pipeline {
         //     }
         // }
 
-        stage('Deploy') {
-            steps {
-                script {
-                    echo 'Deploying'
-                    customImage = docker.build("stock-monitor-api-python:${env.BUILD_ID}")
-                    customImage.inside {
-                        sh '''
-                        docker-compose up
-                        '''
-                    }
-                }
-            }
-        }
+        // stage('Deploy') {
+        //     steps {
+        //         script {
+        //             echo 'Deploying'
+        //             customImage = docker.build("stock-monitor-api-python:${env.BUILD_ID}")
+        //             customImage.inside {
+        //                 sh '''
+        //                 docker-compose up
+        //                 '''
+        //             }
+        //         }
+        //     }
+        // }
     }
 }
