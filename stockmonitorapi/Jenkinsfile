@@ -25,12 +25,14 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                echo 'Deploying'
-                customImage = docker.build("stock-monitor-api-python:${env.BUILD_ID}")
-                customImage.inside {
-                    sh '''
-                    docker-compose up
-                    '''
+                script {
+                    echo 'Deploying'
+                    customImage = docker.build("stock-monitor-api-python:${env.BUILD_ID}")
+                    customImage.inside {
+                        sh '''
+                        docker-compose up
+                        '''
+                    }
                 }
             }
         }
