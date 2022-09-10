@@ -21,6 +21,7 @@ pipeline {
             steps {
                 echo 'Building'
                 sh '''
+
                 set +x
                 cd stockmonitorapi
                 docker build -t sm-api -f ./Dokerfile \
@@ -38,7 +39,7 @@ pipeline {
             steps {
                 echo 'Starting app'
                 sh '''
-                docker run -itd --name smapi-app -p 8000:8000 sm-api
+                docker run -itd --name sm-api-py-app -p 8000:8000 sm-api
                 '''
             }
         }
