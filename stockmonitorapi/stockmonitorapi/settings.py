@@ -12,8 +12,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 # export MONGO_USER=admin
 # export MONGO_PASSWORD=vuLsomPl1
-# export DJANGO_KEY="django-insecure-#m-&g8=)zcf@r@xz(jekm*fwdat1)p5o4u)gnm!6e-!(jgayyx"
-# export MONGO_HOST=cluster0.rvkpori.mongodb.net
+# export DJANGO_KEY="django-insecure-#m-&g8=)zcf@r@xz(jekm*fwdat1)p5o4u)gnm6e-(jgayyx"
+# export MONGO_HOST="mongodb+srv://cluster0.rvkpori.mongodb.net"
 
 from pathlib import Path
 import os

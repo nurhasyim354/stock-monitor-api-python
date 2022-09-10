@@ -1,7 +1,13 @@
 # syntax=docker/dockerfile:1
 FROM python:3.8
+
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
+ENV DJANGO_KEY="django-insecure-#m-&g8=)zcf@r@xz(jekm*fwdat1)p5o4u)gnm6e-(jgayyx"
+ENV MONGO_USER=admin
+ENV MONGO_PASSWORD=vuLsomPl1
+ENV MONGO_HOST=mongodb+srv://cluster0.rvkpori.mongodb.net
+
 WORKDIR /code
 COPY requirements.txt /code/
 RUN pip install -r requirements.txt
