@@ -4,15 +4,18 @@ pipeline {
     stages {
 
         stage('Check env') {
-            echo "Mongoadmin ${MONGO_ADMIN}"
-            echo "home ${HOME}"
-            sh '''
-            echo "home1 $HOME"
-            docker --version
-            python --version
-            pip --version
-            virtualenv --version
-            '''
+            steps {
+                echo "Mongoadmin ${MONGO_ADMIN}"
+                echo "home ${HOME}"
+                sh '''
+                echo "home1 $HOME"
+                docker --version
+                python --version
+                pip --version
+                virtualenv --version
+                '''
+            }
+            
         }
 
 
