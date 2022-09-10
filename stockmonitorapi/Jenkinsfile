@@ -22,13 +22,15 @@ pipeline {
             steps {
                 echo 'Building'
                 sh '''
+                set +x
                 cd stockmonitorapi
-                docker build sm-api -f ./Dokerfile \
+                docker build -t sm-api -f ./Dokerfile \
                 --build-arg DJANGO_KEY="${DJANGO_KEY}" \
                 --build-arg MONGO_USER="${MONGO_USER}" \
                 --build-arg MONGO_PASSWORD="${MONGO_PASSWORD}" \
                 --build-arg MONGO_HOST="${MONGO_HOST}"  . 
                 cd ..
+                set -x
                 '''
             }
         }
