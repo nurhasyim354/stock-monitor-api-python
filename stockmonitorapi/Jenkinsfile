@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'python:3.8'
+            docker { image 'node:16.13.1-alpine' }
             reuseNode true
         }
     }
@@ -12,6 +12,7 @@ pipeline {
             steps {
                 
                 sh '''
+                node --version
                 echo "home1 $HOME"
                 docker --version
                 python3 --version
