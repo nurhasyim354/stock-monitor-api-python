@@ -10,7 +10,9 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Installing'
-                sh 'pip install -r requirements.txt '
+                sh '''
+                pip install -r requirements.txt 
+                '''
             }
         }
 
@@ -24,9 +26,11 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying'
-                def customImage = docker.build("stock-monitor-api-python:${env.BUILD_ID}")
+                customImage = docker.build("stock-monitor-api-python:${env.BUILD_ID}")
                 customImage.inside {
-                    sh 'docker-compose up'
+                    sh '''
+                    docker-compose up
+                    '''
                 }
             }
         }
