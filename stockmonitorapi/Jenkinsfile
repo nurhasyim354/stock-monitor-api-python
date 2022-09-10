@@ -1,16 +1,20 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'python:3.8.10'
+            reuseNode true
+        }
+    }
 
     stages {
 
         stage('Check env') {
             steps {
-                echo "Mongoadmin ${MONGO_ADMIN}"
-                echo "home ${HOME}"
+                
                 sh '''
                 echo "home1 $HOME"
                 docker --version
-                python --version
+                python3 --version
                 pip --version
                 virtualenv --version
                 '''
