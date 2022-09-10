@@ -23,7 +23,7 @@ pipeline {
                 echo 'Building'
                 sh '''
                 cd stockmonitorapi
-                docker buit sm-api -f ./Dokerfile /
+                docker build sm-api -f ./Dokerfile /
                 --build-arg DJANGO_KEY=${DJANGO_KEY} /
                 --build-arg MONGO_USER=${MONGO_USER} /
                 --build-arg MONGO_PASSWORD=${MONGO_PASSWORD} /
@@ -33,13 +33,13 @@ pipeline {
             }
         }
 
-        stage('Run') {
-            steps {
-                echo 'Starting app'
-                sh '''
-                docker run -itd --name smapi-app -p 8000:8000 sm-api 
-                '''
-            }
-        }
+        // stage('Run') {
+        //     steps {
+        //         echo 'Starting app'
+        //         sh '''
+        //         docker run -itd --name smapi-app -p 8000:8000 sm-api 
+        //         '''
+        //     }
+        // }
     }
 }
