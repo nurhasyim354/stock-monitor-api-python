@@ -10,13 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
-# export MONGO_USER=admin
-# export MONGO_PASSWORD=vuLsomPl1
-# export DJANGO_KEY="django-insecure-#m-&g8=)zcf@r@xz(jekm*fwdat1)p5o4u)gnm6e-(jgayyx"
-# export MONGO_HOST="mongodb+srv://cluster0.rvkpori.mongodb.net"
-
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -50,6 +49,15 @@ INSTALLED_APPS = [
     'corsheaders',
     'drf_yasg',
 ]
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'basic': {
+            'type': 'basic'
+        }
+    },
+    'LOGIN_URL': '/admin/login'
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -105,7 +113,7 @@ DATABASES = {
                 'port': 27017,
                 'username': os.environ['MONGO_USER'],
                 'password': os.environ['MONGO_PASSWORD'],
-                'authSource': 'stock_monitor',
+                'authSource': os.environ['MONGO_DB'],
                 'authMechanism': 'SCRAM-SHA-1'
             }
        }
