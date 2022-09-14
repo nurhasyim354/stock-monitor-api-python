@@ -1,42 +1,33 @@
-import pymongo
+from multiprocessing.dummy import Array
+from pymongo import MongoClient
 from django.conf import settings
 import os
-from bson.json_util import dumps
+from bson import json_util
 
 
 
-class MongoClient:
+class MongoDbClient:
 
     def __init__(self, collection_name):
-        self.client = 'mongodb+srv://'+os.environ['MONGO_USER']+':'+os.environ['MONGO_PASSWORD']+'@'+os.environ['MONGO_HOST']+'/?retryWrites=true&w=majority'
-        db = os.environ['MONGO_DB']
-        print("=======", self.client)
-        self.db = self.client['stock_monitor']
+        self.client = MongoClient('mongodb+srv://'+os.environ['MONGO_USER']+':'+os.environ['MONGO_PASSWORD']+'@'+os.environ['MONGO_DOMAIN']+'/?retryWrites=true&w=majority')
+        self.db = self.client[os.environ['MONGO_DB']]
         self.table = self.db[collection_name]
 
     def getAll(self):
         cursor = self.table.find()
-        return dumps(cursor)
+        return json_util.dumps(cursor)
 
+    def insertMany(self, items: Array):
+        self.table.insert_many(items)
 
-#         # Create two documents
-# medicine_1 = {
-#     "medicine_id": "RR000123456",
-#     "common_name": "Paracetamol",
-#     "scientific_name": "",
-#     "available": "Y",
-#     "category": "fever"
-# }
-# medicine_2 = {
-#     "medicine_id": "RR000342522",
-#     "common_name": "Metformin",
-#     "scientific_name": "",
-#     "available": "Y",
-#     "category": "type 2 diabetes"
-# }
+    def count(self): 
+        self.table.count()
 
-# # Insert the documents
-# collection_name.insert_many([medicine_1, medicine_2])
+    def updateOne(self, key, updateItem):
+        self.table.update_one(key, {'$set': updateItem})
+
+    def deleteOne(self, key):
+        self.table.delete_one(key)
 
 # # Check the count
 # count = collection_name.count()

@@ -1,10 +1,21 @@
-from ..mongoClient import MongoClient
+from multiprocessing.dummy import Array
+from ..mongoClient import MongoDbClient
 
-class StockController(MongoClient):
+
+class StockController(MongoDbClient):
 
     def __init__(self):
-        self.store = MongoClient('Store')
-        self.stock = MongoClient('Stock')
+        self.stock = MongoDbClient('Stock')
+        self.store = MongoDbClient('Store')
 
-    def getStores(self):
-        return self.store.getAll()
+    def getStock(self):
+        return self.stock.getAll()
+
+    def addStock(self, stock):
+        return self.stock.insertMany(Array[stock])
+
+    def deleteStock(self, stockId) :
+        return self.stock.deleteOne({'id': stockId})
+
+    def updateStock(self, stockId, updateItem):
+        return self.stock.updateOne({'id': stockId}, updateItem)
