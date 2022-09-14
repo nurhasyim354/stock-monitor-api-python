@@ -28,21 +28,3 @@ class MongoDbClient:
 
     def deleteOne(self, key):
         self.table.delete_one(key)
-
-# # Check the count
-# count = collection_name.count()
-# print(count)
-
-# # Read the documents
-# med_details = collection_name.find({})
-
-# # Print on the terminal
-# for r in med_details:
-#     print(r["common_name"])
-
-# # Update one document
-# update_data = collection_name.update_one({'medicine_id': 'RR000123456'}, {
-#                                          '$set': {'common_name': 'Paracetamol 500'}})
-
-# # Delete one document
-# delete_data = collection_name.delete_one({'medicine_id': 'RR000123456'})
